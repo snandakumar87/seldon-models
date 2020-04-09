@@ -1,4 +1,5 @@
 import numpy as np
+from sklearn_pandas import DataFrameMapper
 
 N = 5000
 
@@ -109,8 +110,6 @@ inputs = df[['age', 'income', 'response', 'events']]
 # split dataset
 X_train, X_test, y_train, y_test = train_test_split(inputs, outputs, test_size=0.4, random_state=23)
 
-from sklearn_pandas import DataFrameMapper
-
 def build_RF_pipeline(inputs, outputs, rf=None):
     if not rf:
         rf = RandomForestClassifier()
@@ -136,7 +135,7 @@ def RF_estimation(inputs, outputs,
     if not min_samples_split:
         min_samples_split = [2, 3, 4]
     if not min_samples_leaf:
-        min_samples_leaf = [1, 2, 4]
+        min_samples_leaf = [3, 4, 5]
     bootstrap = [True, False]
     random_grid = {'n_estimators': n_estimators,
                    'max_depth': max_depth,
@@ -156,6 +155,7 @@ rf = RF_estimation(X_train, y_train, estimator_steps=5, depth_steps=5)
 random_forest_pipeline = build_RF_pipeline(X_train, y_train, rf)
 
 rf_predictions = random_forest_pipeline.predict(X_test)
+print(X_test)
 print(f"MSE: {random_forest_pipeline.score(X_test, y_test)*100}%")
 
 import joblib
