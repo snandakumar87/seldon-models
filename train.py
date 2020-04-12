@@ -105,7 +105,7 @@ from sklearn.compose import ColumnTransformer
 from sklearn.pipeline import Pipeline
 
 outputs = df['segment']
-inputs = df[['age', 'income', 'response', 'events']]
+inputs = df[['income', 'response', 'events']]
 
 # split dataset
 X_train, X_test, y_train, y_test = train_test_split(inputs, outputs, test_size=0.4, random_state=23)
@@ -116,7 +116,7 @@ def build_RF_pipeline(inputs, outputs, rf=None):
     pipeline = Pipeline([
         ("mapper", DataFrameMapper([
             (['response', 'events'], preprocessing.OrdinalEncoder()),
-            (['age', 'income'], None)
+            (['income'], None)
         ])),
         ("classifier", rf)
     ])
